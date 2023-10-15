@@ -10,7 +10,7 @@ Canny edge detection is an image processing technique that aims to detect edges 
 
 Follow these steps to reproduce Canny edge detection using the provided Python script:
 
-### Step 1: Load an Image
+### Step 1: Load an image from the disk
 
 The script loads an image from the disk using the `load_image` function. You can replace "01-image.jpg" in the function call with your own image file. This is the starting point for edge detection.
 
@@ -18,21 +18,21 @@ The script loads an image from the disk using the `load_image` function. You can
 
 ![Original Image](./images/01-image.jpg)
 
-### Step 2: Convert to Gray-Scale
+### Step 2: Convert the image to gray-scale (8bpp format)
 
 The loaded image is converted to gray-scale using the `rgb_to_gray_scale` function. Gray-scaling simplifies the image to a single channel, making edge detection more effective. The gray-scale image is saved as "02-gray-scale.jpg."
 
 ![Gray-Scale Image](./images/02-gray-scale.jpg)
 
-### Step 3: Remove Noise
+### Step 3: Filter image with a Gaussian kernel to remove noise
 
 To remove noise and smooth the image, a Gaussian kernel with a kernel size of 5 and a sigma of 1 is used. The `gaussian_kernel` function generates this 5x5 Gaussian kernel. The kernel is normalized to ensure that the sum of all its values equals 1, preserving image brightness. The noise-removed image is saved as "03-noise-removed.jpg."
 
 ![Noise-Removed Image](./images/03-noise-removed.jpg)
 
-### Step 4: Estimate Gradient Strength and Direction
+### Step 4: Estimate gradient strength and direction
 
-To estimate the gradient strength and direction within the image, the script uses two convolution kernels. The first kernel `Mx` calculates the horizontal gradient, and the second kernel `My` calculates the vertical gradient. These kernels are Sobel filters.
+To estimate the gradient strength and direction within the image, the script uses two convolution kernels. The first kernel `Mx` calculates the horizontal gradient, and the second kernel `My` calculates the vertical gradient. These kernels are Prewitt filters.
 
 ```python
 Mx = np.array([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]], dtype=np.float32)
@@ -43,13 +43,13 @@ The `convolution_2d_with_zero_padding` function is used to apply these kernels t
 
 ![Initial Edge Image](./images/04-initial-edge.jpg)
 
-### Step 5: Ensure One-Pixel Thick Edges
+### Step 5: Ensure the edge is one pixel thick by suppressing non maximum gradients along direction normal to the gradient
 
 To ensure that the detected edges are one pixel thick, non-maximum suppression is performed. This step retains only the maximum gradient pixels along the edge direction normal to the gradient. The one-pixel thick edge image is saved as "05-one-px-thick-edge.jpg."
 
 ![One-Pixel Thick Edge Image](./images/05-one-px-thick-edge.jpg)
 
-### Step 6: Apply Double Threshold
+### Step 6: Link edge maximum gradient pixels using a dual threshold
 
 Double thresholding is applied to link edge maximum gradient pixels and suppress weak edges. Strong edges are highlighted, while weak edges are removed. The final Canny edge image is saved as "06-canny-edge.jpg."
 
