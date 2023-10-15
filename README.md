@@ -57,7 +57,7 @@ Double thresholding is applied to link edge maximum gradient pixels and suppress
 
 ## Additional Note: Convolution with Zero Padding
 
-The `convolution_2d_with_zero_padding` function performs a 2D convolution with zero padding, allowing the convolution kernels to traverse the entire image. The zero padding ensures that the output image is of the same size as the input image. The kernel is flipped and applied to different regions of the image to calculate the convolution at each pixel.
+The `convolution_2d_with_zero_padding` function performs a 2D convolution with zero padding, allowing the convolution kernels to traverse the entire image. This zero padding ensures that the output image is of the same size as the input image. Additionally, the kernel is flipped to enable cross-correlation before being applied to different regions of the image. This process aligns with the mathematical convolution convention, ensuring consistent results and enabling the detection of features and edges within the image.
 
 ## Using Your Own Image
 
